@@ -634,6 +634,13 @@
         <span id="debtBadge" class="hidden text-[10px] bg-amber-500 text-white font-bold px-1.5 py-0.2 rounded-full shadow-sm">0</span>
       </button>
 
+      <!-- Telegram Bot tugmasi -->
+      <button id="openTelegramModalBtn" type="button" title="Telegram Bot xabarnomalari (@Market_777N1bot)" class="px-3 py-2 bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 rounded-xl text-sky-600 dark:text-sky-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm">
+        <i class="fa-brands fa-telegram text-sm text-sky-500"></i>
+        <span class="hidden md:inline">Telegram</span>
+        <span id="tgStatusDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Bot ulangan"></span>
+      </button>
+
       <!-- Sozlamalar tugmasi -->
       <button id="openSettingsBtn" title="Sozlamalar va Zaxira" class="w-9 h-9 bg-slate-100 dark:bg-[#131b30] hover:bg-slate-200 dark:hover:bg-[#1c2744] border border-slate-200 dark:border-white/10 rounded-xl text-slate-600 dark:text-slate-300 flex items-center justify-center transition-all text-xs">
         <i class="fa-solid fa-gear"></i>
@@ -1171,6 +1178,110 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- 6.1 TELEGRAM BOT INTEGRATSIYASI MODALI -->
+  <div id="telegramModal" class="fixed inset-0 bg-[#060813]/85 backdrop-blur-2xl z-50 flex items-center justify-center hidden p-4">
+    <div class="glass-modal w-full max-w-lg p-6 rounded-3xl shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 pb-2 border-b border-slate-200/80 dark:border-white/10">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-sky-500/15 text-sky-500 flex items-center justify-center text-lg border border-sky-500/30 shadow-[0_0_15px_rgba(14,165,233,0.3)]">
+            <i class="fa-brands fa-telegram"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+              <span>Telegram Bot Integratsiyasi</span>
+              <span class="text-[9px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25">Ulangan</span>
+            </h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">Har bir savdo cheki va hisobotlar Telegramga avtomatik boradi</p>
+          </div>
+        </div>
+        <button id="closeTelegramModalBtn" class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-xl font-bold">&times;</button>
+      </div>
+
+      <!-- Bot haqida ma'lumot bloki -->
+      <div class="p-3.5 bg-sky-500/10 dark:bg-[#071322] border border-sky-500/30 rounded-2xl mb-4 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-sky-500 to-blue-600 text-white flex items-center justify-center text-xl shadow-md shadow-sky-500/30">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-black text-slate-900 dark:text-white">Market 777 (@Market_777N1bot)</h4>
+            <span class="text-[11px] text-sky-600 dark:text-sky-400 font-medium flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Bot faol va tayyor</span>
+            </span>
+          </div>
+        </div>
+        <a href="https://t.me/Market_777N1bot" target="_blank" class="px-3.5 py-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+          <span>Botni Ochish</span>
+        </a>
+      </div>
+
+      <form id="telegramSettingsForm" class="space-y-4">
+        <div>
+          <label for="tgBotTokenInput" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Bot Token:</label>
+          <input type="text" id="tgBotTokenInput" required value="8850538304:AAGFHfgltTcyJuouxKG9dDsL3l4OsMf67zQ" readonly
+            class="w-full glass-input rounded-xl px-3 py-2 text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 cursor-not-allowed">
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label for="tgChatIdInput" class="block text-xs font-bold text-slate-700 dark:text-slate-300">Sizning Telegram Chat ID:</label>
+            <span class="text-[10px] text-slate-400 font-mono">Shaxsiy yoki Guruh ID</span>
+          </div>
+          <div class="flex gap-2">
+            <input type="text" id="tgChatIdInput" placeholder="Masalan: 123456789"
+              class="flex-1 glass-input rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100 font-bold">
+            <button type="button" id="autoDetectChatIdBtn" class="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-sky-600/30 whitespace-nowrap flex items-center gap-1.5 active:scale-95">
+              <i class="fa-solid fa-bolt text-amber-300"></i>
+              <span>Chat ID ni Aniqlash</span>
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 leading-normal">
+            💡 <b>Qanday ulanadi:</b> 1) Telegramda <a href="https://t.me/Market_777N1bot" target="_blank" class="text-sky-500 underline font-bold">@Market_777N1bot</a> ga kiring va <b>/start</b> bosing; 2) Yuqoridagi <b>«Chat ID ni Aniqlash»</b> tugmasini bosing!
+          </p>
+          <div class="mt-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-2 text-[11px] text-amber-700 dark:text-amber-300">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-0.5"></i>
+            <div>
+              <b>Eslatma:</b> <code>8850538304</code> bu botning o'z ID raqami. Telegram qoidasiga ko'ra bot o'ziga xabar yoza olmaydi. Cheklar kashir/egalikka kelishi uchun shaxsiy Chat ID bo'lishi kerak.
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3.5 bg-slate-100 dark:bg-[#070a14] border border-slate-200 dark:border-white/10 rounded-2xl space-y-2.5">
+          <span class="text-xs font-bold text-slate-800 dark:text-slate-200 block mb-1">Telegramga yuboriladigan xabarnomalar:</span>
+          
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="tgNotifySales" checked class="rounded bg-white border-slate-300 text-sky-600 focus:ring-0">
+            <span class="text-xs text-slate-700 dark:text-slate-300 font-medium">🧾 Har bir yangi savdo cheki (tovarlar, summa, to'lov turi bilan)</span>
+          </label>
+
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="tgNotifyDebts" checked class="rounded bg-white border-slate-300 text-sky-600 focus:ring-0">
+            <span class="text-xs text-slate-700 dark:text-slate-300 font-medium">📒 Nasiya (Qarz) berilganda va so'ndirilganda</span>
+          </label>
+
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="tgNotifyLowStock" checked class="rounded bg-white border-slate-300 text-sky-600 focus:ring-0">
+            <span class="text-xs text-slate-700 dark:text-slate-300 font-medium">⚠️ Omborda mahsulot kam qolganda ogohlantirish</span>
+          </label>
+        </div>
+
+        <div class="flex gap-2.5 pt-1">
+          <button type="button" id="sendTestTgMsgBtn" class="w-1/2 py-3 px-3 bg-slate-100 dark:bg-[#161f36] hover:bg-slate-200 dark:hover:bg-[#202c4b] border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-paper-plane text-sky-500"></i>
+            <span>Sinov Xabari (Test)</span>
+          </button>
+
+          <button type="submit" class="w-1/2 py-3 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl text-xs font-extrabold transition-all shadow-md shadow-emerald-600/30 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-check"></i>
+            <span>Sozlamalarni Saqlash</span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -2673,6 +2784,13 @@
         };
         debts.unshift(newDebt);
         updateDebtBadge();
+        if (typeof notifyTelegramNewDebt === 'function') {
+          notifyTelegramNewDebt(newDebt, debtCustomer);
+        }
+      }
+
+      if (typeof notifyTelegramSale === 'function') {
+        notifyTelegramSale(saleRecord);
       }
 
       saveCurrentMarketData();
@@ -3432,6 +3550,9 @@
             updateDebtBadge();
             renderDebts();
             showToast('Qarz muvaffaqiyatli so\'ndirildi!', 'success');
+            if (typeof notifyTelegramDebtPaid === 'function') {
+              notifyTelegramDebtPaid(debtItem);
+            }
           }
         });
       });
@@ -3713,6 +3834,283 @@
       }
     }
 
+    // 15.1 TELEGRAM BOT INTEGRATSIYASI (@Market_777N1bot)
+    const DEFAULT_TG_CONFIG = {
+      botToken: '8850538304:AAGFHfgltTcyJuouxKG9dDsL3l4OsMf67zQ',
+      chatId: '',
+      enabled: true,
+      notifySales: true,
+      notifyDebts: true,
+      notifyLowStock: true
+    };
+
+    let telegramConfig = loadFromStorage('pro_pos_telegram_config', DEFAULT_TG_CONFIG);
+    if (!telegramConfig || !telegramConfig.botToken) {
+      telegramConfig = DEFAULT_TG_CONFIG;
+    }
+
+    async function sendTelegramMessage(text, parseMode = 'HTML') {
+      if (!telegramConfig || !telegramConfig.botToken || !telegramConfig.chatId) {
+        return false;
+      }
+      try {
+        const url = `https://api.telegram.org/bot${telegramConfig.botToken}/sendMessage`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: telegramConfig.chatId,
+            text: text,
+            parse_mode: parseMode
+          })
+        });
+        const data = await res.json();
+        return data && data.ok;
+      } catch (err) {
+        console.error('Telegram send error:', err);
+        return false;
+      }
+    }
+
+    function notifyTelegramSale(sale) {
+      if (!telegramConfig || !telegramConfig.enabled || !telegramConfig.notifySales || !telegramConfig.chatId) return;
+
+      try {
+        const d = new Date(sale.date);
+        const dateStr = `${d.toLocaleDateString('uz-UZ')} ${d.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' })}`;
+        
+        const methodIcons = {
+          cash: '💵 Naqd pul',
+          card: '💳 Plastik karta (Humo/Uz)',
+          click: '📱 Click / Payme',
+          debt: '📒 Nasiya (Qarz)'
+        };
+
+        const itemsList = sale.items.map((it, idx) => 
+          `  ${idx + 1}. <b>${it.name}</b> (${it.qty} dona) — ${Number(it.total).toLocaleString('uz-UZ')} UZS`
+        ).join('\n');
+
+        const marketTitle = (currentMarket && currentMarket.name) ? currentMarket.name : (storeSettings.storeName || 'PRO RETAIL');
+
+        let msg = `🧾 <b>YANGI SAVDO CHEKI №${sale.id}</b>\n` +
+          `🏪 <b>Do'kon:</b> ${marketTitle}\n` +
+          `👤 <b>Kassir:</b> ${sale.cashier}\n` +
+          `🕒 <b>Sana:</b> ${dateStr}\n` +
+          `💳 <b>To'lov usuli:</b> ${methodIcons[sale.payMethod] || sale.payMethod}\n\n` +
+          `📦 <b>Sotilgan tovarlar:</b>\n${itemsList}\n\n` +
+          `💰 <b>JAMI TO'LOV:</b> <b>${Number(sale.total).toLocaleString('uz-UZ')} UZS</b>\n`;
+
+        if (sale.payMethod === 'cash') {
+          msg += `💸 <b>Qabul qilindi:</b> ${Number(sale.paidAmount).toLocaleString('uz-UZ')} UZS\n` +
+                 `🪙 <b>Qaytim:</b> ${Number(sale.changeAmount).toLocaleString('uz-UZ')} UZS\n`;
+        }
+
+        msg += `\n✅ <i>Kassadan muvaffaqiyatli o'tkazildi.</i>`;
+
+        sendTelegramMessage(msg);
+      } catch (e) {
+        console.error('Telegram sale notify error:', e);
+      }
+    }
+
+    function notifyTelegramNewDebt(debt, customer) {
+      if (!telegramConfig || !telegramConfig.enabled || !telegramConfig.notifyDebts || !telegramConfig.chatId) return;
+
+      try {
+        const marketTitle = (currentMarket && currentMarket.name) ? currentMarket.name : (storeSettings.storeName || 'PRO RETAIL');
+        const msg = `⚠️ <b>YANGI NASIYA (QARZ) YOZILDI!</b>\n` +
+          `🏪 <b>Do'kon:</b> ${marketTitle}\n` +
+          `👤 <b>Mijoz:</b> <b>${customer.name}</b>\n` +
+          `📞 <b>Telefon:</b> ${customer.phone}\n` +
+          `💰 <b>Qarz summasi:</b> <b>${Number(debt.amount).toLocaleString('uz-UZ')} UZS</b>\n` +
+          (customer.dueDate ? `📅 <b>To'lash muddati:</b> ${customer.dueDate}\n` : '') +
+          (customer.note ? `📝 <b>Izoh:</b> ${customer.note}\n` : '') +
+          `📦 <b>Mahsulotlar:</b> ${debt.items}\n` +
+          `🧾 <b>Chek №:</b> ${debt.receiptId}\n` +
+          `\n📌 <i>Qarz daftari nazoratiga olindi.</i>`;
+
+        sendTelegramMessage(msg);
+      } catch (e) {
+        console.error('Telegram debt notify error:', e);
+      }
+    }
+
+    function notifyTelegramDebtPaid(debt) {
+      if (!telegramConfig || !telegramConfig.enabled || !telegramConfig.notifyDebts || !telegramConfig.chatId) return;
+
+      try {
+        const marketTitle = (currentMarket && currentMarket.name) ? currentMarket.name : (storeSettings.storeName || 'PRO RETAIL');
+        const msg = `✅ <b>NASIYA (QARZ) TO'LANDI!</b>\n` +
+          `🏪 <b>Do'kon:</b> ${marketTitle}\n` +
+          `👤 <b>Mijoz:</b> <b>${debt.customerName}</b>\n` +
+          `📞 <b>Telefon:</b> ${debt.customerPhone}\n` +
+          `💰 <b>To'langan summa:</b> <b>${Number(debt.amount).toLocaleString('uz-UZ')} UZS</b>\n` +
+          `\n🎉 <i>Ushbu qarz muvaffaqiyatli so'ndirildi!</i>`;
+
+        sendTelegramMessage(msg);
+      } catch (e) {
+        console.error('Telegram debt paid notify error:', e);
+      }
+    }
+
+    async function autoDetectTelegramChatId() {
+      if (!telegramConfig || !telegramConfig.botToken) {
+        showToast('Bot tokeni topilmadi!', 'error');
+        return;
+      }
+      showToast('Telegramdan yangi xabarlar qidirilmoqda...', 'info');
+      try {
+        const url = `https://api.telegram.org/bot${telegramConfig.botToken}/getUpdates`;
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        if (data.ok && data.result && data.result.length > 0) {
+          const updates = data.result.slice().reverse();
+          for (const u of updates) {
+            const msg = u.message || u.channel_post || u.edited_message;
+            if (msg && msg.chat && msg.chat.id) {
+              const detectedId = String(msg.chat.id);
+              const userTitle = msg.from ? `${msg.from.first_name || ''} ${msg.from.username ? '(@' + msg.from.username + ')' : ''}` : 'Foydalanuvchi';
+
+              telegramConfig.chatId = detectedId;
+              saveToStorage('pro_pos_telegram_config', telegramConfig);
+
+              const input = document.getElementById('tgChatIdInput');
+              if (input) input.value = detectedId;
+
+              updateTelegramStatusBadge();
+              playSound('success');
+              showToast(`Chat ID topildi: ${detectedId} (${userTitle})!`, 'success');
+
+              sendTelegramMessage(`✅ <b>PRO RETAIL Tizimi Ulandi!</b>\n\nAssalomu alaykum, <b>${userTitle}</b>!\n` +
+                `Do'kon: <b>${(currentMarket && currentMarket.name) ? currentMarket.name : (storeSettings.storeName || 'PRO RETAIL')}</b>\n` +
+                `Ushbu chat orqali barcha savdo cheklari, to'lovlar va qarz xabarnomalari real vaqtda kelib turadi.`).catch(() => {});
+              return;
+            }
+          }
+        }
+        showToast('Telegramda @Market_777N1bot ga kirib /start bosing va keyin yana urinib ko\'ring!', 'warning');
+      } catch (err) {
+        showToast('Telegram API ga ulanishda xatolik: ' + err.message, 'error');
+      }
+    }
+
+    function updateTelegramStatusBadge() {
+      const dot = document.getElementById('tgStatusDot');
+      if (dot) {
+        if (telegramConfig && telegramConfig.chatId) {
+          dot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+          dot.title = `Bot ulangan (Chat ID: ${telegramConfig.chatId})`;
+        } else {
+          dot.className = 'w-2 h-2 rounded-full bg-amber-500';
+          dot.title = 'Chat ID ulanmagan';
+        }
+      }
+    }
+
+    function initTelegramModal() {
+      const modal = document.getElementById('telegramModal');
+      const openBtn = document.getElementById('openTelegramModalBtn');
+      const closeBtn = document.getElementById('closeTelegramModalBtn');
+      const form = document.getElementById('telegramSettingsForm');
+      const autoDetectBtn = document.getElementById('autoDetectChatIdBtn');
+      const testMsgBtn = document.getElementById('sendTestTgMsgBtn');
+
+      const tokenInput = document.getElementById('tgBotTokenInput');
+      const chatIdInput = document.getElementById('tgChatIdInput');
+      const notifySalesCheck = document.getElementById('tgNotifySales');
+      const notifyDebtsCheck = document.getElementById('tgNotifyDebts');
+      const notifyLowStockCheck = document.getElementById('tgNotifyLowStock');
+
+      function populateTelegramForm() {
+        if (tokenInput) tokenInput.value = telegramConfig.botToken || '8850538304:AAGFHfgltTcyJuouxKG9dDsL3l4OsMf67zQ';
+        if (chatIdInput) chatIdInput.value = telegramConfig.chatId || '';
+        if (notifySalesCheck) notifySalesCheck.checked = telegramConfig.notifySales !== false;
+        if (notifyDebtsCheck) notifyDebtsCheck.checked = telegramConfig.notifyDebts !== false;
+        if (notifyLowStockCheck) notifyLowStockCheck.checked = telegramConfig.notifyLowStock !== false;
+      }
+
+      if (openBtn) {
+        openBtn.addEventListener('click', () => {
+          populateTelegramForm();
+          if (modal) modal.classList.remove('hidden');
+        });
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          if (modal) modal.classList.add('hidden');
+        });
+      }
+
+      if (autoDetectBtn) {
+        autoDetectBtn.addEventListener('click', autoDetectTelegramChatId);
+      }
+
+      if (testMsgBtn) {
+        testMsgBtn.addEventListener('click', async () => {
+          const currentId = chatIdInput ? chatIdInput.value.trim() : telegramConfig.chatId;
+          if (!currentId) {
+            showToast('Avval Chat ID ni kiriting yoki aniqlang!', 'warning');
+            return;
+          }
+          const botOwnId = (telegramConfig.botToken || '').split(':')[0];
+          if (currentId === botOwnId || currentId === '8850538304') {
+            playSound('error');
+            showToast("8850538304 — bu botning o'z ID raqami! Bot o'ziga xabar yubora olmaydi. Telegramda @Market_777N1bot ga /start bosing va «Chat ID ni Aniqlash» tugmasini bosing!", 'warning');
+            return;
+          }
+          telegramConfig.chatId = currentId;
+          saveToStorage('pro_pos_telegram_config', telegramConfig);
+
+          showToast('Sinov xabari yuborilmoqda...', 'info');
+          const marketTitle = (currentMarket && currentMarket.name) ? currentMarket.name : (storeSettings.storeName || 'PRO RETAIL');
+          const ok = await sendTelegramMessage(
+            `🧪 <b>PRO RETAIL — Sinov Xabari</b>\n\n` +
+            `🏪 <b>Do'kon:</b> ${marketTitle}\n` +
+            `🕒 <b>Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}\n` +
+            `🤖 <b>Bot:</b> @Market_777N1bot\n\n` +
+            `✅ Telegram bot ulanishi muvaffaqiyatli sinovdan o'tdi! Kassa terminali to'liq ishga tayyor.`
+          );
+
+          if (ok) {
+            playSound('success');
+            showToast('Sinov xabari Telegramga muvaffaqiyatli yuborildi!', 'success');
+          } else {
+            playSound('error');
+            showToast('Xabar yuborilmadi! Chat ID yoki botga /start bosilganini tekshiring.', 'error');
+          }
+        });
+      }
+
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const enteredId = chatIdInput ? chatIdInput.value.trim() : '';
+          const botOwnId = (telegramConfig.botToken || '').split(':')[0];
+          if (enteredId && (enteredId === botOwnId || enteredId === '8850538304')) {
+            playSound('error');
+            showToast("8850538304 — bu botning o'z ID raqami! O'zingizning shaxsiy Chat ID raqamingizni kiriting yoki «Chat ID ni Aniqlash» tugmasidan foydalaning.", 'error');
+            return;
+          }
+          telegramConfig.chatId = enteredId;
+          telegramConfig.notifySales = notifySalesCheck ? notifySalesCheck.checked : true;
+          telegramConfig.notifyDebts = notifyDebtsCheck ? notifyDebtsCheck.checked : true;
+          telegramConfig.notifyLowStock = notifyLowStockCheck ? notifyLowStockCheck.checked : true;
+          telegramConfig.enabled = true;
+
+          saveToStorage('pro_pos_telegram_config', telegramConfig);
+          updateTelegramStatusBadge();
+
+          if (modal) modal.classList.add('hidden');
+          playSound('success');
+          showToast('Telegram bot sozlamalari saqlandi!', 'success');
+        });
+      }
+
+      updateTelegramStatusBadge();
+    }
+
     // 16. GLOBAL HODISALAR VA KLAVIATURA TEZKOR TUGMALARI
     function bindGlobalEvents() {
       const searchInput = document.getElementById('search-input');
@@ -3927,6 +4325,8 @@
           if (forgotModal) forgotModal.classList.add('hidden');
           const logoutModal = document.getElementById('logoutConfirmModal');
           if (logoutModal) logoutModal.classList.add('hidden');
+          const tgModal = document.getElementById('telegramModal');
+          if (tgModal) tgModal.classList.add('hidden');
           return;
         }
 
@@ -3968,6 +4368,7 @@
       initMarketAuth();
       initForgotPinRecovery();
       initLogoutHandler();
+      initTelegramModal();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
