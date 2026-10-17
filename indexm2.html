@@ -1233,7 +1233,7 @@
             <span class="text-[10px] text-slate-400 font-mono">Shaxsiy yoki Guruh ID</span>
           </div>
           <div class="flex gap-2">
-            <input type="text" id="tgChatIdInput" placeholder="Masalan: 123456789"
+            <input type="text" id="tgChatIdInput" value="6543902937" placeholder="Masalan: 6543902937"
               class="flex-1 glass-input rounded-xl px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100 font-bold">
             <button type="button" id="autoDetectChatIdBtn" class="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-sky-600/30 whitespace-nowrap flex items-center gap-1.5 active:scale-95">
               <i class="fa-solid fa-bolt text-amber-300"></i>
@@ -3837,7 +3837,7 @@
     // 15.1 TELEGRAM BOT INTEGRATSIYASI (@Market_777N1bot)
     const DEFAULT_TG_CONFIG = {
       botToken: '8850538304:AAGFHfgltTcyJuouxKG9dDsL3l4OsMf67zQ',
-      chatId: '',
+      chatId: '6543902937',
       enabled: true,
       notifySales: true,
       notifyDebts: true,
@@ -3845,8 +3845,9 @@
     };
 
     let telegramConfig = loadFromStorage('pro_pos_telegram_config', DEFAULT_TG_CONFIG);
-    if (!telegramConfig || !telegramConfig.botToken) {
+    if (!telegramConfig || !telegramConfig.botToken || !telegramConfig.chatId || telegramConfig.chatId === '8850538304') {
       telegramConfig = DEFAULT_TG_CONFIG;
+      saveToStorage('pro_pos_telegram_config', telegramConfig);
     }
 
     async function sendTelegramMessage(text, parseMode = 'HTML') {
@@ -4024,7 +4025,7 @@
 
       function populateTelegramForm() {
         if (tokenInput) tokenInput.value = telegramConfig.botToken || '8850538304:AAGFHfgltTcyJuouxKG9dDsL3l4OsMf67zQ';
-        if (chatIdInput) chatIdInput.value = telegramConfig.chatId || '';
+        if (chatIdInput) chatIdInput.value = telegramConfig.chatId || '6543902937';
         if (notifySalesCheck) notifySalesCheck.checked = telegramConfig.notifySales !== false;
         if (notifyDebtsCheck) notifyDebtsCheck.checked = telegramConfig.notifyDebts !== false;
         if (notifyLowStockCheck) notifyLowStockCheck.checked = telegramConfig.notifyLowStock !== false;
